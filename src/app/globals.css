@@ -1,26 +1,47 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --color-brand-50: #ecfdf7;
+  --color-brand-100: #d1faec;
+  --color-brand-200: #a7f3d9;
+  --color-brand-300: #6ee7c0;
+  --color-brand-400: #34d3a2;
+  --color-brand-500: #10b989;
+  --color-brand-600: #059670;
+  --color-brand-700: #04785c;
+  --color-brand-800: #065f4a;
+  --color-brand-900: #064e3e;
+  --color-ink: #0f1f1a;
+  --color-coral: #ff7a59;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply bg-[#f7faf8] text-ink antialiased;
+}
+
+@utility card {
+  @apply rounded-2xl border border-black/5 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(6,78,62,0.12)];
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
+}
+@utility btn-primary {
+  @apply btn bg-brand-600 text-white hover:bg-brand-700 shadow-sm shadow-brand-900/20;
+}
+@utility btn-ghost {
+  @apply btn text-ink/80 hover:bg-black/5;
+}
+@utility btn-outline {
+  @apply btn border border-black/10 bg-white hover:border-brand-400 hover:text-brand-700;
+}
+@utility input {
+  @apply w-full rounded-xl border border-black/10 bg-white px-3.5 py-2.5 text-sm outline-none transition placeholder:text-black/35 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/15;
+}
+@utility label {
+  @apply mb-1.5 block text-sm font-medium text-ink/80;
+}
+@utility chip {
+  @apply inline-flex items-center gap-1 rounded-full bg-brand-50 px-2.5 py-1 text-xs font-medium text-brand-800;
 }

@@ -40,6 +40,24 @@ export default async function SearchPage({ searchParams }: { searchParams: SP })
     return `/search?${p}`;
   };
 
+  const filters = (
+    <>
+            <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink/50">Sort by</p>
+            {[["best", "Best match"], ["rating", "Rating"], ["distance", "Distance"], ["fee", "Lowest fee"]].map(([k, l]) => (
+              <Link key={k} href={link({ sort: k })} className={`block rounded-lg px-2 py-1.5 ${sort === k ? "bg-brand-50 font-semibold text-brand-800" : "hover:bg-black/5"}`}>{l}</Link>
+            ))}
+            <p className="mb-2 mt-4 text-xs font-semibold uppercase tracking-wide text-ink/50">Distance</p>
+            {[[undefined, "Any"], ["5", "Within 5 km"], ["10", "Within 10 km"], ["25", "Within 25 km"]].map(([k, l]) => (
+              <Link key={l} href={link({ within: k })} className={`block rounded-lg px-2 py-1.5 ${sp.within === k ? "bg-brand-50 font-semibold text-brand-800" : "hover:bg-black/5"}`}>{l}</Link>
+            ))}
+            <p className="mb-2 mt-4 text-xs font-semibold uppercase tracking-wide text-ink/50">Speciality</p>
+            <Link href={link({ specialty: undefined })} className={`block rounded-lg px-2 py-1.5 ${!spec ? "bg-brand-50 font-semibold text-brand-800" : "hover:bg-black/5"}`}>All</Link>
+            {SPECIALTIES.map((s) => (
+              <Link key={s.slug} href={link({ specialty: s.slug })} className={`block rounded-lg px-2 py-1.5 ${spec?.slug === s.slug ? "bg-brand-50 font-semibold text-brand-800" : "hover:bg-black/5"}`}>{s.name}</Link>
+            ))}
+    </>
+  );
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <SearchForm initialQuery={q} size="md" />
@@ -54,21 +72,11 @@ export default async function SearchPage({ searchParams }: { searchParams: SP })
               </div>
             </div>
           )}
-          <div className="card p-4 text-sm">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink/50">Sort by</p>
-            {[["best", "Best match"], ["rating", "Rating"], ["distance", "Distance"], ["fee", "Lowest fee"]].map(([k, l]) => (
-              <Link key={k} href={link({ sort: k })} className={`block rounded-lg px-2 py-1.5 ${sort === k ? "bg-brand-50 font-semibold text-brand-800" : "hover:bg-black/5"}`}>{l}</Link>
-            ))}
-            <p className="mb-2 mt-4 text-xs font-semibold uppercase tracking-wide text-ink/50">Distance</p>
-            {[[undefined, "Any"], ["5", "Within 5 km"], ["10", "Within 10 km"], ["25", "Within 25 km"]].map(([k, l]) => (
-              <Link key={l} href={link({ within: k })} className={`block rounded-lg px-2 py-1.5 ${sp.within === k ? "bg-brand-50 font-semibold text-brand-800" : "hover:bg-black/5"}`}>{l}</Link>
-            ))}
-            <p className="mb-2 mt-4 text-xs font-semibold uppercase tracking-wide text-ink/50">Speciality</p>
-            <Link href={link({ specialty: undefined })} className={`block rounded-lg px-2 py-1.5 ${!spec ? "bg-brand-50 font-semibold text-brand-800" : "hover:bg-black/5"}`}>All</Link>
-            {SPECIALTIES.map((s) => (
-              <Link key={s.slug} href={link({ specialty: s.slug })} className={`block rounded-lg px-2 py-1.5 ${spec?.slug === s.slug ? "bg-brand-50 font-semibold text-brand-800" : "hover:bg-black/5"}`}>{s.name}</Link>
-            ))}
-          </div>
+          <div className="card hidden p-4 text-sm lg:block">{filters}</div>
+          <details className="card p-4 text-sm lg:hidden">
+            <summary className="cursor-pointer font-semibold">Sort and filters</summary>
+            <div className="mt-3">{filters}</div>
+          </details>
         </aside>
 
         <section className="flex-1">
